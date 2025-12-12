@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GCBS ECI Assistant</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #1e3a8a;
+            margin-bottom: 10px;
+        }
+        p {
+            color: #666;
+            margin-bottom: 30px;
+        }
+        .employee-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        button {
+            padding: 15px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            background: #1e3a8a;
+            color: white;
+            transition: all 0.3s;
+        }
+        button:hover {
+            background: #1e40af;
+            transform: translateY(-2px);
+        }
+        #widget-container {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 GCBS ECI Solutions Assistant</h1>
+        <p>Select your name to get personalized help with ECinteractivePLUS</p>
+        
+        <div class="employee-grid">
+            <button onclick="startAgent('Abigail', 'Administration')">Abigail</button>
+            <button onclick="startAgent('Accounting', 'Accounting')">Accounting</button>
+            <button onclick="startAgent('Cissie', 'Sales')">Cissie</button>
+            <button onclick="startAgent('Wes', 'Operations')">Wes</button>
+        </div>
+        
+        <div id="widget-container"></div>
+    </div>
+
+    <script src="https://elevenlabs.io/convai-widget/index.js" async type="text/javascript"></script>
+    <script>
+        function startAgent(employeeName, department) {
+            // Check if first time visitor
+            const storageKey = `gcbs_visited_${employeeName}`;
+            const isFirstTime = !localStorage.getItem(storageKey);
+            
+            // Initialize ElevenLabs widget
+            const widget = document.getElementById('widget-container');
+            widget.innerHTML = `
+                <elevenlabs-convai 
+                    agent-id="agent_6301kc9pzm3ze5nadpezycmc6xp6"
+                    data-employee_name="${employeeName}"
+                    data-department="${department}"
+                    data-is_first_time="${isFirstTime}">
+                </elevenlabs-convai>
+            `;
+            
+            // Mark as visited
+            localStorage.setItem(storageKey, 'true');
+        }
+    </script>
+</body>
+</html>
